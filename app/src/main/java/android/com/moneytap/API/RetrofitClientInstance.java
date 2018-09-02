@@ -13,18 +13,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
 
-    private static Retrofit retrofit;
     private static final String BASE_URL = "https://en.wikipedia.org/w/";//?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=50&pilimit=10&wbptterms=description&gpssearch=Sachin+T&gpslimit=10";
+    private static Retrofit retrofit = null;
 
-    public static Retrofit getRetrofitInstance() {
-        if (retrofit == null) {
+
+    public static Retrofit getClient() {
+        if (retrofit==null) {
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
-            OkHttpClient client = new OkHttpClient();
-            retrofit = new retrofit2.Retrofit.Builder()
+            retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
