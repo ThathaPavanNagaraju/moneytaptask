@@ -87,28 +87,16 @@ public class WikiSearchActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
             SearchResponseModel responseModel = new Gson().fromJson(response,SearchResponseModel.class);
             Log.d(TAG,responseModel.toString());
-            RVListAdapter rvListAdapter = new RVListAdapter(this,responseModel.getQuery().getPages());
+            RVListAdapter rvListAdapter = null;
+            if(responseModel.getQuery() != null) {
+                rvListAdapter = new RVListAdapter(this, responseModel.getQuery().getPages());
+            }
             rvList.setLayoutManager(new LinearLayoutManager(this));
             rvList.setAdapter(rvListAdapter);
+            //rvListAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-    /*private void getSearchResponse(String newText) {
-        APIInterface apiInterface = RetrofitClientInstance.getClient().create(APIInterface.class);
-        Call<SearchResponseModel> call = apiInterface.getDataList(newText,"10");
-        call.enqueue(new Callback<SearchResponseModel>() {
-            @Override
-            public void onResponse(Call<SearchResponseModel> call, Response<SearchResponseModel> response) {
-                Log.d(TAG,response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<SearchResponseModel> call, Throwable t) {
-                Log.d(TAG,t.getMessage());
-            }
-        });
-    }*/
 
 }
